@@ -14,6 +14,7 @@ export class Inventory extends AggregateRoot {
     public soldQuantity: number,
     public createdAt: Date,
     public updatedAt: Date,
+    public isDeleted: boolean,
   ) {
     super()
   }
@@ -30,6 +31,7 @@ export class Inventory extends AggregateRoot {
       0,
       new Date(),
       new Date(),
+      false,
     )
 
     return inventory

@@ -15,6 +15,7 @@ export class InventoryMapper {
       prismaInventory.soldQuantity,
       prismaInventory.createdAt,
       prismaInventory.updatedAt,
+      prismaInventory.isDeleted,
     )
   }
 
@@ -30,6 +31,7 @@ export class InventoryMapper {
       soldQuantity: inventory.soldQuantity,
       createdAt: inventory.createdAt,
       updatedAt: inventory.updatedAt,
+      isDeleted: inventory.isDeleted,
     }
   }
 }

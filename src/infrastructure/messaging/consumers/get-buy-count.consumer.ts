@@ -2,26 +2,27 @@ import { Controller } from '@nestjs/common'
 import { Payload, Ctx, RmqContext, MessagePattern } from '@nestjs/microservices'
 import { QueryBus } from '@nestjs/cqrs'
 import { BaseRetryConsumer } from '~/common/utils/base-retry.consumer'
-import { GetStocksQuery } from '~/application/queries/get-stocks/get-stocks.query'
-import { type GetStocksPayload } from '~/domain/interfaces/inventory.interface'
+import { GetBuyCountQuery } from '~/application/queries/get-buy-count/get-buy-count.query'
+
+interface GetBuyCountPayload {
+  productVariantIds: string[]
+}
 
 @Controller()
-export class GetStocksConsumer extends BaseRetryConsumer {
+export class GetBuyCountConsumer extends BaseRetryConsumer {
   constructor(
     private readonly queryBus: QueryBus
   ) {
     super()
   }
 
-  @MessagePattern('get.stocks')
-  async handleGetStocks(
-    @Payload() data: GetStocksPayload,
+  @MessagePattern('get.buy.count')
+  async handleGetBuyCount(
+    @Payload() data: GetBuyCountPayload,
     @Ctx() context: RmqContext,
   ) {
-    console.log('Event get.stocks received:', data)
-
     const result = await this.handleWithRetry(context, async () => {
-      const result = await this.queryBus.execute(new GetStocksQuery(data.productIds))
+      const result = await this.queryBus.execute(new GetBuyCountQuery(data.productVariantIds))
       return result
     }) 
 

@@ -25,6 +25,7 @@ export class InventoryRepository implements IInventoryRepository {
         productId: {
           in: productIds,
         },
+        isDeleted: false,
       },
       select: {
         productId: true,
@@ -59,8 +60,11 @@ export class InventoryRepository implements IInventoryRepository {
   }
 
   async findByProductVariantId(productVariantId: string): Promise<Inventory | null> {
-    const inventory = await this.prisma.inventory.findUnique({
-      where: { productVariantId },
+    const inventory = await this.prisma.inventory.findFirst({
+      where: { 
+        productVariantId,
+        isDeleted: false,
+      },
     })
 
     if (!inventory) {
@@ -68,6 +72,13 @@ export class InventoryRepository implements IInventoryRepository {
     }
 
     return InventoryMapper.toDomain(inventory)
+  }
+
+  async softDeleteByVariantIds(variantIds: string[]): Promise<void> {
+    await this.prisma.inventory.updateMany({
+      where: { productVariantId: { in: variantIds } },
+      data: { isDeleted: true },
+    })
   }
 
   async updateStocks(variants: Array<{ productVariantId: string; availableQuantity: number; totalQuantity: number }>): Promise<void> {
@@ -84,5 +95,28 @@ export class InventoryRepository implements IInventoryRepository {
         })
       )
     )
+  }
+
+  async getBuyCountAndIsInStockByVariantIds(productVariantIds: string[]): Promise<{ buyCount: number; isInStock: boolean }> {
+    const inventories = await this.prisma.inventory.findMany({
+      where: {
+        productVariantId: {
+          in: productVariantIds,
+        },
+        isDeleted: false,
+      },
+      select: {
+        soldQuantity: true,
+        availableQuantity: true,
+      },
+    })
+
+    // Tính tổng soldQuantity
+    const buyCount = inventories.reduce((sum, inv) => sum + inv.soldQuantity, 0)
+    
+    // isInStock = true nếu ít nhất 1 variant có availableQuantity > 0
+    const isInStock = inventories.some(inv => inv.availableQuantity > 0)
+
+    return { buyCount, isInStock }
   }
 }

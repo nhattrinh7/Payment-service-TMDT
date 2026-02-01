@@ -6,6 +6,7 @@ import { CqrsModule } from '@nestjs/cqrs'
 import { ProductCreatedConsumer } from '~/infrastructure/messaging/consumers/product-created.consumer'
 import { ProductUpdatedConsumer } from '~/infrastructure/messaging/consumers/product-updated.consumer'
 import { GetStocksConsumer } from '~/infrastructure/messaging/consumers/get-stocks.consumer'
+import { GetBuyCountConsumer } from '~/infrastructure/messaging/consumers/get-buy-count.consumer'
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { GetStocksConsumer } from '~/infrastructure/messaging/consumers/get-stoc
   controllers: [
     ProductCreatedConsumer,
     ProductUpdatedConsumer,
-    GetStocksConsumer
+    GetStocksConsumer,
+    GetBuyCountConsumer,
   ],
   providers: [
     {
