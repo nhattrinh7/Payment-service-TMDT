@@ -4,7 +4,10 @@ import { IMessagePublisher } from '~/domain/contracts/message-publisher.interfac
 
 @Injectable()
 export class RabbitMQPublisher implements IMessagePublisher {
-  constructor(@Inject('NOTIFICATION_CLIENT') private readonly notificationClient: ClientProxy) {}
+  constructor(
+    @Inject('NOTIFICATION_CLIENT') 
+    private readonly notificationClient: ClientProxy
+  ) {}
 
   publish<T>(pattern: string, event: T): void {
     this.notificationClient.emit(pattern, event)

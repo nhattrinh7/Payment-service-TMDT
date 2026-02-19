@@ -9,6 +9,7 @@ class EnvConfig {
       SERVICE_NAME: this.configService.get<string>('SERVICE_NAME'),
       SERVICE_HOST: this.configService.get<string>('SERVICE_HOST'),
       PORT: this.configService.get<string>('PORT'),
+      PAYMENT_API_KEY: this.configService.get<string>('PAYMENT_API_KEY'),
     }
   }
 }

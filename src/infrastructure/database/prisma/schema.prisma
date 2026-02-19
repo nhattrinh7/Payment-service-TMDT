@@ -9,63 +9,45 @@ datasource db {
   url      = env("DATABASE_URL") 
 }
 
-model Inventory {
-  id                String   @id @db.Uuid
-  productId         String   @map("product_id") @db.Uuid
-  productVariantId  String   @unique @map("product_variant_id") @db.Uuid
-  shopId            String   @map("shop_id") @db.Uuid
-  
-  totalQuantity     Int      @default(0) @map("total_quantity")
-  reservedQuantity  Int      @default(0) @map("reserved_quantity")
-  availableQuantity Int      @default(0) @map("available_quantity")
-  soldQuantity      Int      @default(0) @map("sold_quantity")
-  
-  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt         DateTime @updatedAt @map("updated_at") @db.Timestamptz
-  isDeleted         Boolean  @default(false) @map("is_deleted")
-  
-  // Relations
-  reservations Reservation[]
-  
-  @@index([productVariantId])
-  @@index([shopId, availableQuantity])
-  @@index([availableQuantity])
-  @@map("inventories")
+// trường code của PaymentTransaction sẽ truyền về paymentCode (vì mình đặt nội dung chuyển khoản là paymentCode)
+// nên khi nhận webhook sẽ tự có paymentCode để biết phải cập nhật Payment nào
+model Payment {
+  id          String        @id @default(uuid()) @db.Uuid
+  paymentCode String        @unique @db.VarChar(30) @map("payment_code")
+  userId      String        @db.Uuid @map("user_id")
+  status      PaymentStatus
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  @@map("payments")
 }
 
-model Reservation {
-  id                  String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  inventoryId         String            @map("inventory_id") @db.Uuid
-  
-  orderId             String            @map("order_id") @db.Uuid
-  userId              String            @map("user_id") @db.Uuid
-  
-  quantity            Int               // Số lượng hàng được giữ của 1 món hàng trong order
-  status              ReservationStatus @default(PENDING)
-  expiresAt           DateTime          @map("expires_at") @db.Timestamptz
-  
-  confirmedAt         DateTime?         @map("confirmed_at") @db.Timestamptz
-  cancelledAt         DateTime?         @map("cancelled_at") @db.Timestamptz
-  failedAt            DateTime?         @map("failed_at") @db.Timestamptz
-  cancellationReason  String?           @map("cancellation_reason") @db.Text
-  
-  createdAt           DateTime          @default(now()) @map("created_at") @db.Timestamptz
-  
-  // Relations
-  inventory           Inventory         @relation(fields: [inventoryId], references: [id])
-  
-  @@index([orderId])
-  @@index([inventoryId, status])
-  @@index([status, expiresAt])
-  @@index([userId, status])
-  @@map("reservations")
+enum PaymentStatus {
+  PENDING
+  SUCCESS 
+  FAILED
 }
 
-enum ReservationStatus {
-  PENDING    // Đang giữ hàng (chưa thanh toán)
-  CONFIRMED  // Đã thanh toán thành công
-  EXPIRED    // Hết hạn 15 phút chưa thanh toán
-  CANCELLED  // User hủy đơn
-  // FAILED     // Thanh toán thất bại
+model PaymentTransaction {
+  id                 String   @id @default(uuid()) @db.Uuid
+  gateway            String   @db.VarChar(100)
+  transactionDate    DateTime @default(now()) @map("transaction_date")
+
+  accountNumber      String?  @db.VarChar(100) @map("account_number")
+  subAccount         String?  @db.VarChar(250) @map("sub_account")
+
+  amountIn           Int      @default(0)      @map("amount_in")
+  amountOut          Int      @default(0)      @map("amount_out")
+  accumulated        Int      @default(0)
+
+  code               String?  @db.VarChar(250)
+  transactionContent String?  @db.Text         @map("transaction_content")
+  referenceNumber    String?  @db.VarChar(255) @map("reference_number")
+  body               String?  @db.Text
+
+  createdAt          DateTime @default(now())  @map("created_at")
+
+  @@map("payment_transactions")
 }
+
 

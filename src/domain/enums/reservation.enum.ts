@@ -4,4 +4,4 @@ export const ReservationStatus = {
   EXPIRED: 'EXPIRED',
   CANCELLED: 'CANCELLED',
 } as const
-  export type ReservationStatus = (typeof ReservationStatus)[keyof typeof ReservationStatus]
+export type ReservationStatus = (typeof ReservationStatus)[keyof typeof ReservationStatus]
