@@ -8,6 +8,8 @@ export class PaymentMapper {
       prismaPayment.id,
       prismaPayment.paymentCode,
       prismaPayment.userId,
+      prismaPayment.amount,
+      prismaPayment.sagaId,
       prismaPayment.status,
       prismaPayment.createdAt,
       prismaPayment.updatedAt
@@ -19,6 +21,8 @@ export class PaymentMapper {
       id: payment.id,
       paymentCode: payment.paymentCode,
       userId: payment.userId,
+      amount: payment.amount,
+      sagaId: payment.sagaId,
       status: payment.status,
       createdAt: payment.createdAt,
       updatedAt: payment.updatedAt
