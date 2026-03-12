@@ -5,7 +5,8 @@ import { env } from '~/configs/env.config'
 export class PaymentAPIKeyGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest()
-    const paymentApiKey = request.headers['authorization']?.split(' ')[1]
+    const authHeader = request.headers['authorization'] || ''
+    const paymentApiKey = authHeader.replace(/^Apikey\s+/i, '')
     if (paymentApiKey !== env.config.PAYMENT_API_KEY) {
       throw new UnauthorizedException()
     }

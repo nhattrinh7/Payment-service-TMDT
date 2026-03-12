@@ -32,9 +32,9 @@ export class SagaCreatePaymentHandler implements ICommandHandler<SagaCreatePayme
     const savedPayment = await this.paymentRepository.save(payment)
 
     // Tạo QR URL (SePay format)
-    const bankId = process.env.SEPAY_BANK_ID || '970422'
-    const accountNumber = process.env.SEPAY_ACCOUNT_NUMBER || ''
-    const qrUrl = `https://qr.sepay.vn/img?acc=${accountNumber}&bank=${bankId}&amount=${amount}&des=${PREFIX_PAYMENT_CODE}${savedPayment.paymentCode}`
+    const bankAccount = process.env.SEPAY_BANK_ACCOUNT || ''
+    const bankName = process.env.SEPAY_BANK_NAME || ''
+    const qrUrl = `https://qr.sepay.vn/img?acc=${bankAccount}&bank=${bankName}&amount=${amount}&des=${PREFIX_PAYMENT_CODE}${savedPayment.paymentCode}`
 
     return {
       success: true,
