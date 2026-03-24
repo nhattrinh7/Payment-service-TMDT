@@ -93,7 +93,10 @@ export class HandleWebhookHandler implements ICommandHandler<HandleWebhookComman
       return { success: true, message: 'Incorrect amount' }
     }
 
-    // Thanh toán thành công
+    // Thanh toán thành công → cập nhật status trong DB
+    payment.markSuccess()
+    await this.paymentRepository.save(payment)
+
     this.logger.log(`Webhook: Thanh toán thành công cho payment ${paymentCode}`)
 
     this.messagePublisher.emitToSagaOrchestrator('saga.payment-webhook', {

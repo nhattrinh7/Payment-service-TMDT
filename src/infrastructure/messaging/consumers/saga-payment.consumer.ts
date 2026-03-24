@@ -4,7 +4,6 @@ import { CommandBus } from '@nestjs/cqrs'
 import { BaseRetryConsumer } from '~/common/utils/base-retry.consumer'
 import { SagaCreatePaymentCommand } from '~/application/commands/saga-create-payment/saga-create-payment.command'
 import { SagaCancelPaymentCommand } from '~/application/commands/saga-cancel-payment/saga-cancel-payment.command'
-import { SagaUpdatePaymentStatusCommand } from '~/application/commands/saga-update-payment-status/saga-update-payment-status.command'
 import type { IMessagePublisher } from '~/domain/contracts/message-publisher.interface'
 import { MESSAGE_PUBLISHER } from '~/domain/contracts/message-publisher.interface'
 
@@ -65,23 +64,6 @@ export class SagaPaymentConsumer extends BaseRetryConsumer {
         )
       } catch (error: any) {
         this.logger.error(`Cancel payment failed: ${error.message}`)
-      }
-    })
-  }
-
-  @EventPattern('saga.update-payment-status')
-  async handleUpdatePaymentStatus(
-    @Payload() data: { sagaId: string; paymentId: string; status: string },
-    @Ctx() context: RmqContext,
-  ) {
-    await this.handleWithRetry(context, async () => {
-      this.logger.log(`Event saga.update-payment-status received, sagaId=${data.sagaId}`)
-      try {
-        await this.commandBus.execute(
-          new SagaUpdatePaymentStatusCommand(data.sagaId, data.paymentId, data.status),
-        )
-      } catch (error: any) {
-        this.logger.error(`Update payment status failed: ${error.message}`)
       }
     })
   }

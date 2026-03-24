@@ -5,13 +5,11 @@ import { MessagingModule } from '~/infrastructure/messaging/messaging.module'
 import { HandleWebhookHandler } from './commands/handle-webhook/handle-webhook.command.handler'
 import { SagaCreatePaymentHandler } from './commands/saga-create-payment/saga-create-payment.command.handler'
 import { SagaCancelPaymentHandler } from './commands/saga-cancel-payment/saga-cancel-payment.command.handler'
-import { SagaUpdatePaymentStatusHandler } from './commands/saga-update-payment-status/saga-update-payment-status.command.handler'
 
 const CommandHandlers = [
   HandleWebhookHandler,
   SagaCreatePaymentHandler,
   SagaCancelPaymentHandler,
-  SagaUpdatePaymentStatusHandler,
 ]
 
 const QueryHandlers = [
