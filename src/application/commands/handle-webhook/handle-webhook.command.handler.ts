@@ -6,7 +6,7 @@ import { PAYMENT_REPOSITORY } from '~/domain/repositories/payment.repository.int
 import type { IPaymentTransactionRepository } from '~/domain/repositories/payment-transaction.repository.interface'
 import { PAYMENT_TRANSACTION_REPOSITORY } from '~/domain/repositories/payment-transaction.repository.interface'
 import { PaymentTransaction } from '~/domain/entities/payment-transaction.entity'
-import { PREFIX_PAYMENT_CODE } from '~/common/constants/payment.constant'
+import { PREFIX_PAYMENT_CODE, DEFAULT_PAYMENT_GATEWAY } from '~/common/constants/payment.constant'
 import type { IMessagePublisher } from '~/domain/contracts/message-publisher.interface'
 import { MESSAGE_PUBLISHER } from '~/domain/contracts/message-publisher.interface'
 
@@ -30,7 +30,7 @@ export class HandleWebhookHandler implements ICommandHandler<HandleWebhookComman
 
     // Tạo PaymentTransaction entity qua factory method
     const transaction = PaymentTransaction.create({
-      gateway: body.gateway || 'SePay',
+      gateway: body.gateway || DEFAULT_PAYMENT_GATEWAY,
       transactionDate: body.transactionDate ? new Date(body.transactionDate) : new Date(),
       accountNumber: body.accountNumber,
       subAccount: body.subAccount,
