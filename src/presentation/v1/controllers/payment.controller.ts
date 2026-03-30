@@ -21,7 +21,7 @@ export class PaymentController {
   ) {}
 
   @UseGuards(PaymentAPIKeyGuard)
-  @Post('sepay-webhook')
+  @Post('sepay')
   async receiver(
     @Body() body: WebhookPaymentBodyDto,
   ): Promise<any> {
