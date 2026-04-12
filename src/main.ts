@@ -17,12 +17,6 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api')
 
-  const config = new DocumentBuilder()
-    .setTitle('payment-service API Docs')
-    .setVersion('1.0')
-    .build()
-  const document = SwaggerModule.createDocument(app, config)
-  SwaggerModule.setup('api/v1/payments/docs', app, document)
 
   app.useGlobalFilters(new GlobalExceptionFilter())
   app.useGlobalInterceptors(new ResponseInterceptor())
