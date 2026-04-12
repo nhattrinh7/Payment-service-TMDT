@@ -10,7 +10,6 @@ import { PREFIX_PAYMENT_CODE, DEFAULT_PAYMENT_GATEWAY } from '~/common/constants
 import type { IMessagePublisher } from '~/domain/contracts/message-publisher.interface'
 import { MESSAGE_PUBLISHER } from '~/domain/contracts/message-publisher.interface'
 
-
 // Một số chỗ sẽ bắt buộc return success : true là 1 kĩ thuật bắt buộc khi làm việc với các hệ thống thanh toán như Sepay,... khi muốn tránh Sepay Retry
 @CommandHandler(HandleWebhookCommand)
 export class HandleWebhookHandler implements ICommandHandler<HandleWebhookCommand> {

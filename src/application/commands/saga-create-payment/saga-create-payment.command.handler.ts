@@ -16,7 +16,9 @@ interface CreatePaymentResult {
 }
 
 @CommandHandler(SagaCreatePaymentCommand)
-export class SagaCreatePaymentHandler implements ICommandHandler<SagaCreatePaymentCommand, CreatePaymentResult> {
+export class SagaCreatePaymentHandler
+  implements ICommandHandler<SagaCreatePaymentCommand, CreatePaymentResult>
+{
   constructor(
     @Inject(PAYMENT_REPOSITORY)
     private readonly paymentRepository: IPaymentRepository,

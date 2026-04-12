@@ -47,18 +47,42 @@ export class PaymentTransaction {
     })
   }
 
-  get id(): string { return this.props.id }
-  get gateway(): string { return this.props.gateway }
-  get transactionDate(): Date { return this.props.transactionDate }
-  get accountNumber(): string | null { return this.props.accountNumber }
-  get subAccount(): string | null { return this.props.subAccount }
-  get amountIn(): number { return this.props.amountIn }
-  get amountOut(): number { return this.props.amountOut }
-  get accumulated(): number { return this.props.accumulated }
-  get code(): string | null { return this.props.code }
-  get transactionContent(): string | null { return this.props.transactionContent }
-  get referenceNumber(): string | null { return this.props.referenceNumber }
-  get body(): string | null { return this.props.body }
+  get id(): string {
+    return this.props.id
+  }
+  get gateway(): string {
+    return this.props.gateway
+  }
+  get transactionDate(): Date {
+    return this.props.transactionDate
+  }
+  get accountNumber(): string | null {
+    return this.props.accountNumber
+  }
+  get subAccount(): string | null {
+    return this.props.subAccount
+  }
+  get amountIn(): number {
+    return this.props.amountIn
+  }
+  get amountOut(): number {
+    return this.props.amountOut
+  }
+  get accumulated(): number {
+    return this.props.accumulated
+  }
+  get code(): string | null {
+    return this.props.code
+  }
+  get transactionContent(): string | null {
+    return this.props.transactionContent
+  }
+  get referenceNumber(): string | null {
+    return this.props.referenceNumber
+  }
+  get body(): string | null {
+    return this.props.body
+  }
 
   toPlainObject(): PaymentTransactionProps {
     return { ...this.props }

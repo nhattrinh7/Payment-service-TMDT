@@ -1,7 +1,6 @@
 import { createZodDto } from 'nestjs-zod'
 import z from 'zod'
 
-
 export const PaymentTransactionSchema = z.object({
   id: z.number(),
   gateway: z.string(),

@@ -1,5 +1,4 @@
-
-import { Payment as PrismaPayment} from '@prisma/client'
+import { Payment as PrismaPayment } from '@prisma/client'
 import { Payment } from '~/domain/entities/payment.entity'
 
 export class PaymentMapper {
@@ -12,7 +11,7 @@ export class PaymentMapper {
       prismaPayment.sagaId,
       prismaPayment.status,
       prismaPayment.createdAt,
-      prismaPayment.updatedAt
+      prismaPayment.updatedAt,
     )
   }
 
@@ -25,7 +24,7 @@ export class PaymentMapper {
       sagaId: payment.sagaId,
       status: payment.status,
       createdAt: payment.createdAt,
-      updatedAt: payment.updatedAt
+      updatedAt: payment.updatedAt,
     }
   }
 }

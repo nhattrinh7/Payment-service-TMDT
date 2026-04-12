@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Logger,
-  Post,
-  Req,
-  UseGuards,
-} from '@nestjs/common'
+import { Body, Controller, Logger, Post, Req, UseGuards } from '@nestjs/common'
 import { CommandBus, QueryBus } from '@nestjs/cqrs'
 import { PaymentAPIKeyGuard } from '~/common/guards/payment-api-key.guard'
 import { WebhookPaymentBodyDto } from '~/presentation/dtos/payment-transaction.dto'
@@ -22,9 +15,7 @@ export class PaymentController {
 
   @UseGuards(PaymentAPIKeyGuard)
   @Post('sepay')
-  async receiver(
-    @Body() body: WebhookPaymentBodyDto,
-  ): Promise<any> {
+  async receiver(@Body() body: WebhookPaymentBodyDto): Promise<any> {
     this.logger.log(`Webhook received: ${JSON.stringify(body)}`)
     return this.commandBus.execute(new HandleWebhookCommand(body))
   }

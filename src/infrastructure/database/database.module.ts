@@ -19,9 +19,6 @@ import { CqrsModule } from '@nestjs/cqrs'
       useClass: PaymentTransactionRepository,
     },
   ],
-  exports: [
-    PAYMENT_REPOSITORY,
-    PAYMENT_TRANSACTION_REPOSITORY,
-  ],
+  exports: [PAYMENT_REPOSITORY, PAYMENT_TRANSACTION_REPOSITORY],
 })
 export class DatabaseModule {}

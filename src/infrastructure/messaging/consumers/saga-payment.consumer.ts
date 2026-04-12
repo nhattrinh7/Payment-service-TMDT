@@ -19,7 +19,8 @@ export class SagaPaymentConsumer extends BaseRetryConsumer {
 
   @EventPattern('saga.create-payment')
   async handleCreatePayment(
-    @Payload() data: {
+    @Payload()
+    data: {
       sagaId: string
       userId: string
       amount: number
@@ -59,9 +60,7 @@ export class SagaPaymentConsumer extends BaseRetryConsumer {
     await this.handleWithRetry(context, async () => {
       this.logger.log(`Event saga.cancel-payment received, sagaId=${data.sagaId}`)
       try {
-        await this.commandBus.execute(
-          new SagaCancelPaymentCommand(data.sagaId, data.paymentId),
-        )
+        await this.commandBus.execute(new SagaCancelPaymentCommand(data.sagaId, data.paymentId))
       } catch (error: any) {
         this.logger.error(`Cancel payment failed: ${error.message}`)
       }

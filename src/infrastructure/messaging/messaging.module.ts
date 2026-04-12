@@ -29,9 +29,7 @@ import { SagaPaymentConsumer } from '~/infrastructure/messaging/consumers/saga-p
       },
     ]),
   ],
-  controllers: [
-    SagaPaymentConsumer,
-  ],
+  controllers: [SagaPaymentConsumer],
   providers: [
     {
       provide: MESSAGE_PUBLISHER,
