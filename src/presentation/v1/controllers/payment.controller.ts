@@ -16,7 +16,7 @@ export class PaymentController {
   @UseGuards(PaymentAPIKeyGuard)
   @Post('sepay')
   async receiver(@Body() body: WebhookPaymentBodyDto): Promise<any> {
-    this.logger.log(`Webhook received: ${JSON.stringify(body)}`)
+    this.logger.log('Webhook received')
     return this.commandBus.execute(new HandleWebhookCommand(body))
   }
 }
